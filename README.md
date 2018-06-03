@@ -17,6 +17,7 @@ pip install -r requirements.txt
 ##macro
 
 ##从models创建sqlite数据库
+```
 python manager.py shell
 >>> from app import db
 >>> from app import models
@@ -46,3 +47,4 @@ python manager.py shell
 2
 >>> Role.query.filter('id>0')
 <flask_sqlalchemy.BaseQuery object at 0x000000FE83F73240>
+```
