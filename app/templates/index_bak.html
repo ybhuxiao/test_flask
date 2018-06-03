@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% import '_macro.html' as ui %}
+
+{% block title %}
+   {#    title block#}
+    {{ title }}
+{% endblock %}
+
+
+{% block content %}
+{#content block#}
+<h1>{{ self.title() }}</h1>
+
+
+<h2>★、url_for</h2>
+<hr/>
+<nav>
+    <a href="{{ url_for('.services') }}">Services</a>
+    <a href="{{ url_for('.about') }}">About</a>
+    122233
+</nav>
+<br /><br />
+
+<h2>★、用livereload实时修改，保存111222</h2>
+<hr/>
+<ul>
+    <li>
+        <a href="https://github.com/lepture/python-livereload" target="_blank">https://github.com/lepture/python-livereload</a>
+    </li>
+    <li>
+        <a href="http://livereload.com/extensions/" target="_blank">http://livereload.com/extensions/</a>
+    </li>
+</ul>
+<br /><br />
+
+<h2>★、autoescape</h2>
+<hr/>
+{#autoescape可以用于渲染html标签，而不是打印到前台#}
+{% autoescape false %}
+    <h1>{{ title }}</h1>
+{% endautoescape %}
+<br /><br />
+
+
+<h2>★、safe过滤器</h2>
+<hr/>
+{#或者使用safe过滤器也可以渲染html标签#}
+{{ title|safe }}
+<br /><br />
+
+<h2>★、自定义md过滤器</h2>
+<hr/>
+{{ body|md|safe }}
+<br /><br />
+
+
+<h2>★、inject methods</h2>
+<hr/>
+{{ read_md('test.md')|md|safe }}
+
+
+
+<h2>★、直接set变量+for循环输出</h2>
+<hr/>
+如果加了with，则变量只在with范围内有效
+{% with %}
+{% set links=[
+       ('Home',url_for('.index')),
+       ('About', url_for('.about')),
+       ('Services', url_for('.services')),
+       ('Projects', url_for('.projects'))
+] %}
+{{ links }}
+<nav>
+    {% for label,href in links %}
+        {% if not loop.first %} | {% endif %}
+        {% if href is current_link %}
+            <strong>{{ loop.index }}.{{ label }}</strong>
+         {% else %}
+            <a href="{{ href }}" target="_blank">{{ loop.index }}.{{ label }}</a>
+        {% endif %}
+    {% endfor %}
+</nav>
+{% endwith %}
+
+{{ ui.input('username') }}
+{{ ui.input('password',type='password') }}
+
+{% endblock content %}
+
+{% block footer %}
+    <hr style="margin-top: 100px">
+    <div style="line-height: 100px;text-align: center;background-color: #ccc;">
+    {{ super() }}
+    </div>
+{% endblock %}
